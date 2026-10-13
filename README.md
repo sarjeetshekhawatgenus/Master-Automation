@@ -70,8 +70,8 @@ The application supports nine source-to-destination category operations across *
 
 ```bash
 # Clone the repository
-git clone https://github.com/sarjeetshekhawat/MasterAutomation.git
-cd MasterAutomation
+git clone https://github.com/sarjeetshekhawatgenus/Master-Automation.git
+cd Master-Automation
 
 # Create a virtual environment (recommended)
 python -m venv .venv

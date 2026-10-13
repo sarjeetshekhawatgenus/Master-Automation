@@ -63,95 +63,790 @@ def _inject_css() -> None:
     st.markdown(
         """
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap');
-        html, body, [class*="st-"], .stApp {
-            font-family: 'IBM Plex Sans', sans-serif;
-            color: #1B2428;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+        :root {
+            --mda-primary: #0F5C56;
+            --mda-primary-hover: #0B3B38;
+            --mda-primary-dark: #00433E;
+            --mda-accent: #10B981;
+            --mda-bg: #F8F9FA;
+            --mda-surface: #FFFFFF;
+            --mda-surface-alt: #EFF4FF;
+            --mda-surface-card: #FFFFFF;
+            --mda-border: #E2E8F0;
+            --mda-border-strong: #CBD5E1;
+            --mda-text: #0D1C2E;
+            --mda-text-secondary: #475569;
+            --mda-text-muted: #64748B;
+            --mda-success: #059669;
+            --mda-success-bg: #ECFDF5;
+            --mda-success-border: #A7F3D0;
+            --mda-warning: #D97706;
+            --mda-warning-bg: #FFFBEB;
+            --mda-warning-border: #FDE68A;
+            --mda-danger: #DC2626;
+            --mda-danger-bg: #FEF2F2;
+            --mda-danger-border: #FECACA;
+            --mda-info: #0284C7;
+            --mda-info-bg: #F0F9FF;
+            --mda-info-border: #BAE6FD;
         }
+
+        html, body, .stApp {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--mda-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Material Symbols ligatures: ensure glyph renders and never spills text into button labels */
+        [data-testid="stIconMaterial"], .material-symbols-rounded, .material-symbols-outlined {
+            font-family: 'Material Symbols Rounded' !important;
+            font-weight: normal !important;
+            font-style: normal !important;
+            font-size: 1.25rem !important;
+            line-height: 1 !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            white-space: nowrap !important;
+            word-wrap: normal !important;
+            direction: ltr !important;
+            -webkit-font-feature-settings: 'liga' 1 !important;
+            font-feature-settings: 'liga' 1 !important;
+            -webkit-font-smoothing: antialiased !important;
+            overflow: hidden !important;
+            max-width: 1.5rem !important;
+            margin-right: 0.35rem !important;
+        }
+
         .stApp {
             background:
-                linear-gradient(180deg, rgba(15,92,86,0.05) 0%, transparent 220px),
-                repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(27,36,40,0.035) 32px),
-                #F3EFE6;
+                radial-gradient(ellipse at 50% 0%, rgba(15, 92, 86, 0.04) 0%, transparent 450px),
+                linear-gradient(180deg, #FFFFFF 0%, var(--mda-bg) 260px),
+                var(--mda-bg);
         }
-        .block-container { padding-top: 1.15rem; max-width: 1180px; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Source Serif 4', 'IBM Plex Sans', serif !important; color: #132026; letter-spacing: -0.02em; }
-        #MainMenu, footer, header { visibility: hidden; }
-        .mda-hero {
-            display: grid; grid-template-columns: auto 1fr; gap: 1rem 1.15rem;
-            align-items: start; padding: 1.05rem 1.2rem 1.15rem;
-            background: #FFFcf7; border: 1px solid #D8D0C2; border-radius: 10px;
-            box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 8px 24px rgba(27,36,40,0.05);
-            margin-bottom: 0.9rem;
+
+        .block-container {
+            padding-top: 0.75rem;
+            padding-bottom: 3rem;
+            max-width: 1240px;
+            overflow-x: hidden;
         }
+
+        h1, h2, h3, h4 {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--mda-text);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        #MainMenu, footer, header[data-testid="stHeader"] {
+            display: none !important;
+        }
+
+        /* Unified Top App Header */
+        .mda-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.75rem 1.15rem;
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+        }
+
+        .mda-topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
         .mda-mark {
-            width: 44px; height: 44px; border-radius: 8px;
-            background: #0F5C56; color: #F4EFE4;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.82rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--mda-primary);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.05em;
+            box-shadow: 0 1px 2px rgba(15, 92, 86, 0.3);
+            flex-shrink: 0;
+        }
+
+        .mda-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mda-title-row {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
+        .mda-title {
+            font-size: 1.12rem !important;
+            font-weight: 700 !important;
+            color: var(--mda-text) !important;
+            letter-spacing: -0.015em;
+            margin: 0 !important;
+            line-height: 1.2 !important;
+        }
+
+        .mda-version-pill {
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--mda-primary);
+            background: rgba(15, 92, 86, 0.08);
+            border: 1px solid rgba(15, 92, 86, 0.2);
+            padding: 0.12rem 0.45rem;
+            border-radius: 4px;
+        }
+
+        .mda-kicker {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--mda-text-secondary);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .mda-topbar-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .mda-runtime-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            background: var(--mda-surface-alt);
+            border: 1px solid var(--mda-border-strong);
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--mda-text);
+        }
+
+        .mda-pulsing-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--mda-accent);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+        }
+
+        .mda-docs-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.22rem 0.6rem;
+            border-radius: 6px;
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--mda-text-secondary);
+        }
+
+        .mda-profile-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            background: #E7F3F1;
+            border: 1px solid #B8DFDB;
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--mda-primary);
+        }
+
+        /* Stepper */
+        .mda-stepper-container {
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            border-radius: 8px;
+            padding: 0.65rem 0.85rem;
+            margin-bottom: 0.85rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+        }
+
+        .mda-stepper {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.35rem;
+            padding: 0;
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        .mda-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.65rem;
+            border-radius: 6px;
+            border: 1px solid var(--mda-border);
+            background: #FFFFFF;
+            color: var(--mda-text-secondary);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            transition: all 0.15s ease;
+        }
+
+        .mda-connector {
+            flex: 1 1 auto;
+            height: 2px;
+            min-width: 8px;
+            max-width: 32px;
+            background: #E2E8F0;
+            border-radius: 1px;
+            list-style: none;
+        }
+
+        .mda-connector.mda-conn-active {
+            background: var(--mda-success);
+        }
+
+        .mda-connector.mda-conn-pending {
+            background: #E2E8F0;
+        }
+
+        .mda-step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--mda-surface-alt);
+            color: var(--mda-text-muted);
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .mda-step-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .mda-step-label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--mda-text);
+            line-height: 1.2;
+        }
+
+        .mda-step-tag {
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 1px 4px;
+            border-radius: 3px;
+            width: fit-content;
+            line-height: 1.2;
+        }
+
+        .mda-tag-active {
+            background: rgba(15, 92, 86, 0.1);
+            color: var(--mda-primary);
+        }
+
+        .mda-tag-done {
+            background: var(--mda-success-bg);
+            color: var(--mda-success);
+        }
+
+        .mda-tag-attn {
+            background: var(--mda-warning-bg);
+            color: var(--mda-warning);
+        }
+
+        .mda-step-current {
+            border-color: var(--mda-primary) !important;
+            background: #F0FDF4 !important;
+            box-shadow: 0 0 0 1px var(--mda-primary);
+        }
+
+        .mda-step-current .mda-step-badge {
+            background: var(--mda-primary) !important;
+            color: #FFFFFF !important;
+        }
+
+        .mda-step-current .mda-step-label {
+            color: var(--mda-primary) !important;
+            font-weight: 700 !important;
+        }
+
+        .mda-step-complete {
+            border-color: var(--mda-success-border) !important;
+            background: #F0FDF4 !important;
+        }
+
+        .mda-step-complete .mda-step-badge {
+            background: var(--mda-success) !important;
+            color: #FFFFFF !important;
+        }
+
+        .mda-step-complete .mda-step-label {
+            color: #047857;
+        }
+
+        .mda-step-attention {
+            border-color: var(--mda-warning-border) !important;
+            background: var(--mda-warning-bg) !important;
+        }
+
+        .mda-step-attention .mda-step-badge {
+            background: var(--mda-warning) !important;
+            color: #FFFFFF !important;
+        }
+
+        .mda-step-attention .mda-step-label {
+            color: #B45309;
+        }
+
+        /* Instruction Banner */
+        .mda-banner {
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            border-radius: 8px;
+            padding: 1rem 1.35rem;
+            margin-bottom: 0.85rem;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+        }
+
+        .mda-banner-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.45rem;
+        }
+
+        .mda-stepchip {
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--mda-primary);
+            background: var(--mda-success-bg);
+            border: 1px solid var(--mda-success-border);
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .mda-telemetry {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .mda-telemetry-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.18rem 0.5rem;
+            background: var(--mda-surface-alt);
+            border: 1px solid var(--mda-border);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.68rem;
+            color: var(--mda-text-secondary);
+        }
+
+        .mda-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--mda-accent);
+        }
+
+        .mda-banner-title {
+            margin: 0.2rem 0 0.35rem 0 !important;
+            font-size: 1.25rem !important;
+            color: var(--mda-text) !important;
+        }
+
+        .mda-lede {
+            color: var(--mda-text-secondary);
+            font-size: 0.88rem;
+            margin: 0;
+            line-height: 1.45;
+        }
+
+        /* File Card */
+        .mda-file {
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            border-left: 4px solid var(--mda-primary);
+            border-radius: 6px;
+            padding: 0.85rem 1.1rem;
+            margin: 0.5rem 0 0.85rem 0;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+        }
+
+        .mda-file strong {
+            display: block;
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.92rem;
+            color: var(--mda-text);
+            word-break: break-word;
+        }
+
+        .mda-meta {
+            color: var(--mda-text-secondary);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .mda-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 0.45rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Segoe UI Mono', 'Cascadia Code', Consolas, monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+        }
+
+        .mda-ok {
+            background: var(--mda-success-bg);
+            color: var(--mda-success);
+            border-color: var(--mda-success-border);
+        }
+
+        .mda-warn {
+            background: var(--mda-warning-bg);
+            color: var(--mda-warning);
+            border-color: var(--mda-warning-border);
+        }
+
+        .mda-fail {
+            background: var(--mda-danger-bg);
+            color: var(--mda-danger);
+            border-color: var(--mda-danger-border);
+        }
+
+        .mda-idle {
+            background: var(--mda-surface-alt);
+            color: var(--mda-text-secondary);
+            border-color: var(--mda-border-strong);
+        }
+
+        .mda-idle-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin: 0.5rem 0 0.85rem 0;
+            padding: 0.35rem 0.75rem;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #64748B;
+        }
+
+        .mda-idle-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #94A3B8;
+        }
+
+        /* Operations Selection Layout */
+        .mda-op-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.6rem;
+            border-bottom: 1px solid var(--mda-border);
+        }
+
+        .mda-op-section-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--mda-text);
+        }
+
+        .mda-op-badge-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            background: var(--mda-surface-alt);
+            border: 1px solid var(--mda-border);
+            color: var(--mda-text-secondary);
+        }
+
+        .mda-op-config-card {
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 0.85rem 0;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+        }
+
+        .mda-op-config-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--mda-primary);
+            margin-bottom: 0.45rem;
+            text-transform: uppercase;
             letter-spacing: 0.04em;
         }
-        .mda-kicker {
-            font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
-            letter-spacing: 0.16em; text-transform: uppercase; color: #0F5C56; margin: 0 0 0.2rem;
+
+        .mda-op-config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.65rem;
+            font-size: 0.82rem;
         }
-        .mda-hero h1 { margin: 0; font-size: 1.72rem; line-height: 1.15; }
-        .mda-hero p { margin: 0.35rem 0 0; color: #4B585E; font-size: 0.95rem; max-width: 58rem; }
-        .mda-stepper {
-            list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0 0 1rem;
+
+        .mda-op-config-item {
+            background: var(--mda-bg);
+            border: 1px solid var(--mda-border);
+            border-radius: 6px;
+            padding: 0.55rem 0.75rem;
         }
-        .mda-step {
-            display: flex; align-items: center; gap: 0.4rem;
-            border: 1px solid #D8D0C2; background: #FFFcf7; color: #5C6770;
-            border-radius: 999px; padding: 0.28rem 0.7rem 0.28rem 0.45rem; font-size: 0.78rem;
+
+        .mda-op-config-label {
+            display: block;
+            font-size: 0.68rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--mda-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.2rem;
         }
-        .mda-step-index { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: #7A868C; }
-        .mda-step-current { border-color: #0F5C56; color: #0F5C56; background: #E7F3F1; font-weight: 600; }
-        .mda-step-complete { border-color: #1B7A4A; color: #145C38; background: #E8F6EE; }
-        .mda-step-attention { border-color: #A65B12; color: #8A4308; background: #FBF0E4; }
-        .mda-step-state { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: inherit; }
-        .mda-panel {
-            background: #FFFcf7; border: 1px solid #D8D0C2; border-radius: 10px;
-            padding: 1.05rem 1.15rem 1.2rem; margin-bottom: 0.85rem;
+
+        .mda-op-config-val {
+            font-weight: 600;
+            color: var(--mda-text);
         }
-        .mda-stepchip {
-            font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
-            letter-spacing: 0.12em; text-transform: uppercase; color: #0F5C56; margin: 0 0 0.35rem;
+
+        /* KPI Metrics */
+        .mda-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.55rem;
+            margin: 0.85rem 0 1.15rem 0;
         }
-        .mda-lede { color: #4B585E; margin: 0 0 0.85rem; }
-        .mda-file {
-            border: 1px dashed #C9C0B0; border-radius: 8px; padding: 0.75rem 0.9rem; background: #F8F4EB;
+
+        .mda-kpi-card {
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            border-radius: 6px;
+            padding: 0.75rem 0.85rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
         }
-        .mda-file strong { display: block; font-size: 0.95rem; word-break: break-word; overflow-wrap: anywhere; }
-        .mda-meta { color: #5C6770; font-size: 0.82rem; margin-top: 0.2rem; }
-        .mda-status { display: inline-block; margin-top: 0.45rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-        .mda-ok { color: #145C38; }
-        .mda-warn { color: #8A4308; }
-        .mda-fail { color: #9B1C1C; }
-        .mda-idle { color: #5C6770; }
-        .mda-op-selected {
-            border: 1px solid #0F5C56 !important; background: #E7F3F1 !important; color: #0F5C56 !important;
+
+        .mda-kpi-label {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--mda-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.25rem;
         }
-        .mda-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.55rem; margin: 0.7rem 0 1rem; }
-        .mda-metric { border: 1px solid #D8D0C2; border-radius: 8px; padding: 0.7rem 0.8rem; background: #FFFcf7; }
-        .mda-metric span { display: block; font-size: 0.72rem; color: #5C6770; text-transform: uppercase; letter-spacing: 0.06em; }
-        .mda-metric strong { font-family: 'IBM Plex Mono', monospace; font-size: 1.15rem; }
-        .stButton>button { border-radius: 8px; font-weight: 600; white-space: normal; }
-        div[data-testid="stFileUploader"] { max-width: 100%; }
-        div[data-testid="stFileUploader"] section { background: #FFFcf7; border: 1px dashed #C9C0B0; }
-        div[data-testid="stDataFrame"], div[data-testid="stDataFrame"] > div { max-width: 100%; overflow-x: auto; }
-        div[data-testid="stMetric"] { min-width: 0; }
-        div[data-testid="stMetricValue"] { overflow-wrap: anywhere; }
-        .stDownloadButton button { white-space: normal; height: auto; min-height: 2.5rem; }
-        @media (max-width: 800px) {
-            .mda-hero { grid-template-columns: 1fr; }
-            .mda-hero h1 { font-size: 1.35rem; }
-            .mda-step { font-size: 0.72rem; }
+
+        .mda-kpi-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--mda-text);
+            line-height: 1.2;
+        }
+
+        /* Buttons */
+        .stButton > button {
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.84rem;
+            transition: all 0.15s ease;
+            white-space: normal;
+            border: 1px solid var(--mda-border-strong);
+        }
+
+        .stButton > button:hover {
+            border-color: var(--mda-primary);
+        }
+
+        .stButton > button[kind="primary"] {
+            background: var(--mda-primary) !important;
+            border-color: var(--mda-primary-dark) !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 1px 2px rgba(15, 92, 86, 0.25);
+        }
+
+        .stButton > button[kind="primary"]:hover {
+            background: var(--mda-primary-hover) !important;
+        }
+
+        .stDownloadButton > button {
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.84rem;
+            white-space: normal;
+            min-height: 2.6rem;
+            border: 1px solid var(--mda-border-strong);
+            background: #FFFFFF;
+            transition: all 0.15s ease;
+        }
+
+        .stDownloadButton > button:hover {
+            border-color: var(--mda-primary);
+            background: var(--mda-surface-alt);
+        }
+
+        /* File Uploader */
+        div[data-testid="stFileUploader"] {
+            max-width: 100%;
+        }
+
+        div[data-testid="stFileUploader"] section {
+            background: #FFFFFF;
+            border: 1.5px dashed var(--mda-border-strong);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: border-color 0.15s ease;
+        }
+
+        div[data-testid="stFileUploader"] section:hover {
+            border-color: var(--mda-primary);
+        }
+
+        /* Suppress raw ligature text in file uploader dropzone */
+        div[data-testid="stFileUploaderDropzone"] [data-testid="stIconMaterial"] {
+            display: none !important;
+        }
+
+        div[data-testid="stFileUploaderDropzone"] button {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.45rem !important;
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            white-space: nowrap !important;
+            position: relative !important;
+        }
+
+        div[data-testid="stFileUploaderDropzone"] button::before {
+            content: "" !important;
+            display: inline-block !important;
+            width: 15px !important;
+            height: 15px !important;
+            background-color: currentColor !important;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z'/%3E%3C/svg%3E") no-repeat center / contain !important;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z'/%3E%3C/svg%3E") no-repeat center / contain !important;
+        }
+
+        div[data-testid="stFileUploaderDropzoneInstructions"] {
+            padding-left: 0.5rem !important;
+        }
+
+        /* Dataframe & Tables */
+        div[data-testid="stDataFrame"] {
+            border: 1px solid var(--mda-border);
+            border-radius: 6px;
+            overflow: hidden;
+            background: #FFFFFF;
+        }
+
+        /* Export Cards */
+        .mda-export-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.85rem;
+            margin: 0.85rem 0;
+        }
+
+        .mda-export-card {
+            background: #FFFFFF;
+            border: 1px solid var(--mda-border);
+            border-radius: 8px;
+            padding: 1.15rem;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+        }
+
+        .mda-export-card-hero {
+            border-color: var(--mda-primary);
+            background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+            box-shadow: 0 2px 6px rgba(15, 92, 86, 0.08);
+        }
+
+        .mda-export-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--mda-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .mda-export-desc {
+            font-size: 0.8rem;
+            color: var(--mda-text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 840px) {
+            .mda-topbar { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .mda-topbar-meta { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+            .mda-hero { flex-direction: column; align-items: flex-start; }
+            .mda-banner-top { flex-direction: column; align-items: flex-start; }
+            .mda-telemetry { flex-wrap: wrap; }
+            .mda-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .mda-stepper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        }
+
+        @media (max-width: 500px) {
+            .mda-kpi-grid { grid-template-columns: 1fr; }
         }
         </style>
         """,
         unsafe_allow_html=True,
     )
+
 
 
 def _save_upload(uploaded, suffix: str, previous_path: str | None = None) -> str:
@@ -235,25 +930,52 @@ def _issue_expander(title: str, detail: str) -> None:
 
 
 def _nav(back: int | None, nxt: int | None, next_disabled: bool = False) -> None:
-    cols = st.columns([1, 1, 6])
     busy = bool(st.session_state.processing)
-    if back:
+    if back and nxt:
+        cols = st.columns([1.5, 1.5, 7])
         if cols[0].button("Back", use_container_width=True, disabled=busy):
             st.session_state.step = back
             st.rerun()
-    if nxt:
         if cols[1].button("Continue", use_container_width=True, disabled=next_disabled or busy, type="primary"):
             st.session_state.step = nxt
+            st.rerun()
+    elif nxt:
+        cols = st.columns([2, 8])
+        if cols[0].button("Continue", use_container_width=True, disabled=next_disabled or busy, type="primary"):
+            st.session_state.step = nxt
+            st.rerun()
+    elif back:
+        cols = st.columns([2, 8])
+        if cols[0].button("Back", use_container_width=True, disabled=busy):
+            st.session_state.step = back
             st.rerun()
 
 
 def _step_heading(index: int, title: str, lede: str) -> None:
+    step_name = WORKFLOW_STEPS[index - 1][1]
     st.markdown(
-        f'<div class="mda-stepchip">Step {index:02d} / 07 — {WORKFLOW_STEPS[index - 1][1]}</div>',
+        f"""
+        <div class="mda-banner">
+          <div class="mda-banner-top">
+            <span class="mda-stepchip">STEP {index:02d} OF 07 · {html.escape(step_name.upper())}</span>
+            <div class="mda-telemetry">
+              <span class="mda-telemetry-pill">
+                <span class="mda-dot"></span>Session: <strong>SES-MASTER-DATA</strong>
+              </span>
+              <span class="mda-telemetry-pill">
+                Runtime: <strong>Python 3.11+</strong>
+              </span>
+              <span class="mda-telemetry-pill">
+                Engine: <strong>v3.4.1 Strict</strong>
+              </span>
+            </div>
+          </div>
+          <h2 class="mda-banner-title">{html.escape(title)}</h2>
+          <p class="mda-lede">{html.escape(lede)}</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
-    st.subheader(title)
-    st.markdown(f'<p class="mda-lede">{lede}</p>', unsafe_allow_html=True)
 
 
 def _file_card(name: str, size, kind: str, status: str, status_class: str, extra: str = "") -> None:
@@ -261,13 +983,18 @@ def _file_card(name: str, size, kind: str, status: str, status_class: str, extra
     st.markdown(
         f"""
         <div class="mda-file">
-          <strong>{html.escape(str(name or ""))}</strong>
-          <div class="mda-meta">{html.escape(kind)} · {html.escape(format_file_size(size))}{f' · {extra_html}' if extra_html else ''}</div>
-          <span class="mda-status {html.escape(status_class)}">{html.escape(status)}</span>
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
+            <div>
+              <strong>{html.escape(str(name or ""))}</strong>
+              <div class="mda-meta">{html.escape(kind)} · {html.escape(format_file_size(size))}{f' · {extra_html}' if extra_html else ''}</div>
+            </div>
+            <span class="mda-status {html.escape(status_class)}">{html.escape(status)}</span>
+          </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
+
 
 
 def _preview_frame(df: pd.DataFrame, caption: str) -> None:
@@ -326,7 +1053,7 @@ def step_template() -> None:
         return
 
     if not st.session_state.template_path:
-        st.markdown('<p class="mda-status mda-idle">Waiting for upload</p>', unsafe_allow_html=True)
+        st.markdown('<div class="mda-idle-hint"><span class="mda-idle-dot"></span>Waiting for template file upload...</div>', unsafe_allow_html=True)
         _nav(None, 2, next_disabled=True)
         return
 
@@ -404,19 +1131,29 @@ def step_operation() -> None:
     _step_heading(
         2,
         "Select the processing operation",
-        "Choose the source and destination meter categories for this entire run.",
+        "Choose the source and destination meter categories for this processing run.",
     )
     current = st.session_state.operation_id
     left, right = st.columns(2)
     sections = list(UI_OPERATION_GROUPS.items())
     for col, (group_name, ids) in zip((left, right), sections):
         with col:
-            st.markdown(f"**{group_name}**")
+            count = len(ids)
+            st.markdown(
+                f"""
+                <div class="mda-op-section-header">
+                  <span class="mda-op-section-title">{html.escape(group_name)}</span>
+                  <span class="mda-op-badge-count">{count} operations</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
             for op_id in ids:
                 op = OPERATIONS[op_id]
                 selected = current == op_id
                 label = f"{'●' if selected else '○'}  {op.label}"
-                if st.button(label, key=f"op_{op_id}", use_container_width=True):
+                btn_type = "primary" if selected else "secondary"
+                if st.button(label, key=f"op_{op_id}", use_container_width=True, type=btn_type):
                     if st.session_state.operation_id != op_id:
                         _clear_results()
                     st.session_state.operation_id = op_id
@@ -424,11 +1161,40 @@ def step_operation() -> None:
 
     op = OPERATIONS.get(st.session_state.operation_id)
     if op:
-        st.success(f"Selected operation: {op.label}")
+        lookup_ref = f"{op.destination.value} METER MAKE" if not op.is_same_category else f"{op.source.value} Reference"
+        rule_text = "Rule A: ESC auto-resolves to TOD" if (op.source.value == "WC" and op.destination.value in ("HTCT", "LTCT")) else ("Rule B: Source identification preserved" if op.source.value in ("HTCT", "LTCT") and op.destination.value == "WC" else "Standard Field Reconciliation")
+        
+        st.markdown(
+            f"""
+            <div class="mda-op-config-card">
+              <div class="mda-op-config-title">Active Configuration: {html.escape(op.label)}</div>
+              <div class="mda-op-config-grid">
+                <div class="mda-op-config-item">
+                  <span class="mda-op-config-label">Source Category</span>
+                  <span class="mda-op-config-val">{html.escape(op.source.value)}</span>
+                </div>
+                <div class="mda-op-config-item">
+                  <span class="mda-op-config-label">Destination Category</span>
+                  <span class="mda-op-config-val">{html.escape(op.destination.value)}</span>
+                </div>
+                <div class="mda-op-config-item">
+                  <span class="mda-op-config-label">Lookup Reference</span>
+                  <span class="mda-op-config-val">{html.escape(lookup_ref)}</span>
+                </div>
+                <div class="mda-op-config-item">
+                  <span class="mda-op-config-label">Business Rule</span>
+                  <span class="mda-op-config-val">{html.escape(rule_text)}</span>
+                </div>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         st.caption(f"Source {op.source.value} → destination {op.destination.value}. {operation_explanation(op)}")
     else:
-        st.markdown('<p class="mda-status mda-idle">No operation selected</p>', unsafe_allow_html=True)
+        st.markdown('<div class="mda-idle-hint"><span class="mda-idle-dot"></span>No operation selected yet</div>', unsafe_allow_html=True)
     _nav(1, 3, next_disabled=st.session_state.operation_id is None)
+
 
 
 def step_hierarchy() -> None:
@@ -474,7 +1240,7 @@ def step_hierarchy() -> None:
         return
 
     if not st.session_state.hierarchy_path:
-        st.markdown('<p class="mda-status mda-idle">Waiting for upload</p>', unsafe_allow_html=True)
+        st.markdown('<div class="mda-idle-hint"><span class="mda-idle-dot"></span>Waiting for hierarchy file upload...</div>', unsafe_allow_html=True)
         _nav(2, 4, next_disabled=True)
         return
 
@@ -583,7 +1349,7 @@ def step_source() -> None:
         return
 
     if not st.session_state.source_path:
-        st.markdown('<p class="mda-status mda-idle">Waiting for upload</p>', unsafe_allow_html=True)
+        st.markdown('<div class="mda-idle-hint"><span class="mda-idle-dot"></span>Waiting for consumer source file upload...</div>', unsafe_allow_html=True)
         _nav(3, 5, next_disabled=True)
         return
 
@@ -883,31 +1649,48 @@ def _render_results(result) -> None:
     for col, (label, value) in zip(cols, metrics):
         col.metric(label, value)
 
-    if result.validation.errors:
-        st.markdown("**Errors**")
-        err_rows = [{
-            "File / area": e.category,
-            "Column": e.field,
-            "Row": e.row if e.row and e.row > 0 else "",
-            "Issue": humanize_validation_issue(e.category, e.message, e.field, e.row),
-        } for e in result.validation.errors]
-        _preview_frame(pd.DataFrame(err_rows), "Validation errors.")
-    if result.validation.warnings:
-        st.markdown("**Warnings**")
-        warn_rows = [{
-            "File / area": w.category,
-            "Column": w.field,
-            "Row": w.row if w.row and w.row > 0 else "",
-            "Issue": humanize_validation_issue(w.category, w.message, w.field, w.row),
-        } for w in result.validation.warnings]
-        _preview_frame(pd.DataFrame(warn_rows), "Validation warnings.")
-    infos = [i for i in result.validation.issues if i.severity == "INFO"]
-    if infos:
-        with st.expander("Informational messages"):
+    tab_issues, tab_audit, tab_info = st.tabs([
+        f"Validation Issues & Quality ({len(result.validation.errors) + len(result.validation.warnings)})",
+        "Record Audit Log",
+        "Informational Messages",
+    ])
+
+    with tab_issues:
+        has_issues = False
+        if result.validation.errors:
+            has_issues = True
+            st.markdown("**Errors**")
+            err_rows = [{
+                "File / area": e.category,
+                "Column": e.field,
+                "Row": e.row if e.row and e.row > 0 else "",
+                "Issue": humanize_validation_issue(e.category, e.message, e.field, e.row),
+            } for e in result.validation.errors]
+            _preview_frame(pd.DataFrame(err_rows), "Validation errors.")
+        if result.validation.warnings:
+            has_issues = True
+            st.markdown("**Warnings**")
+            warn_rows = [{
+                "File / area": w.category,
+                "Column": w.field,
+                "Row": w.row if w.row and w.row > 0 else "",
+                "Issue": humanize_validation_issue(w.category, w.message, w.field, w.row),
+            } for w in result.validation.warnings]
+            _preview_frame(pd.DataFrame(warn_rows), "Validation warnings.")
+        if not has_issues:
+            st.info("No validation issues or warnings detected. All records comply with schema and reference rules.")
+
+    with tab_audit:
+        st.markdown("**Record-level audit stream**")
+        _preview_frame(result.audit.to_dataframe(), "Record-level audit.")
+
+    with tab_info:
+        infos = [i for i in result.validation.issues if i.severity == "INFO"]
+        if infos:
             for item in infos[:50]:
                 st.caption(item.message)
-    st.markdown("**Audit log**")
-    _preview_frame(result.audit.to_dataframe(), "Record-level audit.")
+        else:
+            st.caption("No informational messages.")
 
 
 def step_output() -> None:
@@ -986,6 +1769,15 @@ def step_output() -> None:
     st.markdown("**Downloads for this run**")
     d1, d2, d3 = st.columns(3)
     with d1:
+        st.markdown(
+            """
+            <div class="mda-export-card mda-export-card-hero">
+              <div class="mda-export-title">Master Ingestion Workbook (.xlsx)</div>
+              <div class="mda-export-desc">Template-compliant consumer master workbook for the current run.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         if st.session_state.output_bytes:
             st.download_button(
                 "Final Excel workbook",
@@ -995,10 +1787,19 @@ def step_output() -> None:
                 help="Template-compliant consumer master workbook for the current run.",
                 use_container_width=True,
             )
-            st.caption(st.session_state.output_name)
+            st.caption(f"{st.session_state.output_name} ({format_file_size(len(st.session_state.output_bytes))})")
         else:
             st.caption("Workbook is available after generation.")
     with d2:
+        st.markdown(
+            """
+            <div class="mda-export-card">
+              <div class="mda-export-title">Audit Trail Report (.xlsx)</div>
+              <div class="mda-export-desc">Full per-record audit for the current validation run.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         if st.session_state.audit_bytes:
             st.download_button(
                 "Audit report",
@@ -1009,8 +1810,17 @@ def step_output() -> None:
                 use_container_width=True,
                 key="dl_audit2",
             )
-            st.caption(st.session_state.audit_name or "")
+            st.caption(f"{st.session_state.audit_name or ''} ({format_file_size(len(st.session_state.audit_bytes))})")
     with d3:
+        st.markdown(
+            """
+            <div class="mda-export-card">
+              <div class="mda-export-title">Error Report (.xlsx)</div>
+              <div class="mda-export-desc">Unresolved issues from the current validation run.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         if st.session_state.error_bytes:
             st.download_button(
                 "Error report",
@@ -1021,7 +1831,7 @@ def step_output() -> None:
                 use_container_width=True,
                 key="dl_err2",
             )
-            st.caption(st.session_state.error_name or "")
+            st.caption(f"{st.session_state.error_name or ''} ({format_file_size(len(st.session_state.error_bytes))})")
     _nav(6, None)
 
 
@@ -1035,12 +1845,20 @@ def main() -> None:
     _init_state()
     st.markdown(
         """
-        <div class="mda-hero">
-          <div class="mda-mark">MDA</div>
-          <div>
-            <p class="mda-kicker">Consumer Master Update System</p>
-            <h1>Master Data Automation</h1>
-            <p>Transform consumer records, resolve network hierarchy, validate reference data, and generate template-compliant Excel output.</p>
+        <div class="mda-topbar">
+          <div class="mda-topbar-brand">
+            <div class="mda-mark">MDA</div>
+            <div class="mda-title-wrap">
+              <div class="mda-title-row">
+                <h1 class="mda-title">Master Data Automation</h1>
+                <span class="mda-version-pill">v3.4.1 Strict</span>
+              </div>
+              <p class="mda-kicker">Consumer Master Update System &middot; Transform consumer records, resolve network hierarchy, validate reference data</p>
+            </div>
+          </div>
+          <div class="mda-topbar-meta">
+            <span class="mda-runtime-pill"><span class="mda-pulsing-dot"></span>System Ready &middot; Python 3.11+</span>
+            <span class="mda-profile-pill">Grid Admin</span>
           </div>
         </div>
         """,
@@ -1062,3 +1880,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

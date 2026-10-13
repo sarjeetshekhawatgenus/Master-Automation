@@ -232,20 +232,39 @@ def invalidate_processing_results(state: Any) -> None:
 
 
 def stepper_html(statuses: Sequence[Mapping[str, str]]) -> str:
-    parts = ['<ol class="mda-stepper" aria-label="Workflow progress">']
-    for item in statuses:
+    parts = ['<div class="mda-stepper-container" aria-label="Workflow progress"><ol class="mda-stepper">']
+    for idx, item in enumerate(statuses):
         label = html.escape(item["label"])
         status = html.escape(item["status"])
         step = html.escape(item["step"])
+        step_num = step.zfill(2)
+        icon = "✓" if status == "complete" else ("!" if status == "attention" else step_num)
+        
+        tag_html = ""
+        if status == "current":
+            tag_html = '<span class="mda-step-tag mda-tag-active">Active</span>'
+        elif status == "complete":
+            tag_html = '<span class="mda-step-tag mda-tag-done">Done</span>'
+        elif status == "attention":
+            tag_html = '<span class="mda-step-tag mda-tag-attn">Review</span>'
+
         parts.append(
             f'<li class="mda-step mda-step-{status}">'
-            f'<span class="mda-step-index">{step.zfill(2)}</span>'
+            f'<span class="mda-step-badge">{icon}</span>'
+            f'<div class="mda-step-info">'
             f'<span class="mda-step-label">{label}</span>'
-            f'<span class="mda-step-state">{status.replace("attention", "needs attention")}</span>'
-            f"</li>"
+            f'{tag_html}'
+            f'</div>'
+            f'<span class="mda-step-state" style="display:none">{status.replace("attention", "needs attention")}</span>'
+            f'</li>'
         )
-    parts.append("</ol>")
+        if idx < len(statuses) - 1:
+            conn_class = "mda-conn-active" if status == "complete" else "mda-conn-pending"
+            parts.append(f'<li class="mda-connector {conn_class}" aria-hidden="true"></li>')
+    parts.append("</ol></div>")
     return "".join(parts)
+
+
 
 
 def humanize_exception(exc: BaseException, context: str) -> Tuple[str, str]:

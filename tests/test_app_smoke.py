@@ -33,7 +33,7 @@ def _click(at: AppTest, label: str) -> AppTest:
 
 
 def test_app_loads_branding_and_first_step():
-    at = AppTest.from_file("app.py", default_timeout=12)
+    at = AppTest.from_file("../app.py", default_timeout=12)
     at.run()
     assert not at.exception
     markdown = " ".join(str(item.value) for item in at.markdown)
@@ -43,7 +43,7 @@ def test_app_loads_branding_and_first_step():
 
 
 def test_operation_buttons_cover_all_nine_operations():
-    at = AppTest.from_file("app.py", default_timeout=12)
+    at = AppTest.from_file("../app.py", default_timeout=12)
     at.session_state["step"] = 2
     at.session_state["template_path"] = "dummy.xlsx"
     at.session_state["target_sheet"] = "HTCT Consumer Master"
@@ -56,7 +56,7 @@ def test_operation_buttons_cover_all_nine_operations():
 
 
 def test_selecting_operation_is_retained():
-    at = AppTest.from_file("app.py", default_timeout=12)
+    at = AppTest.from_file("../app.py", default_timeout=12)
     at.session_state["step"] = 2
     at.run()
     conversion = [btn for btn in at.button if "HTCT → LTCT" in btn.label]
@@ -111,7 +111,7 @@ def test_wizard_runs_pipeline_and_clears_stale_results():
     hierarchy = Path(_hierarchy_csv(d))
     source = Path(_source_excel(d, [_base_source_row()]))
 
-    at = AppTest.from_file("app.py", default_timeout=45)
+    at = AppTest.from_file("../app.py", default_timeout=45)
     at.run()
     _preload_inputs(at, template, hierarchy, source)
     at.session_state["operation_id"] = 1
