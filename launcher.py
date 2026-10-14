@@ -146,20 +146,20 @@ def main():
 
     # Import and run Streamlit via bootstrap in-process
     import streamlit.web.bootstrap as bootstrap
+    from streamlit import config as _config
 
-    flag_options = {
-        "server.port": port,
-        "server.headless": False,
-        "server.maxUploadSize": 3072,
-        "browser.gatherUsageStats": False,
-        "global.developmentMode": False,
-    }
+    # Set config options programmatically (takes precedence over config.toml)
+    _config.set_option("server.port", port)
+    _config.set_option("server.headless", False)
+    _config.set_option("server.maxUploadSize", 3072)
+    _config.set_option("browser.gatherUsageStats", False)
+    _config.set_option("global.developmentMode", False)
 
     bootstrap.run(
         str(app_path),
         is_hello=False,
         args=[],
-        flag_options=flag_options,
+        flag_options={},
     )
 
 

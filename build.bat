@@ -22,8 +22,8 @@ if errorlevel 1 (
     pip install pyinstaller
 )
 
-echo [3/3] Compiling Standalone Executable with PyInstaller...
-python -m PyInstaller --noconfirm --clean MasterAutomation-onefile.spec
+echo [3/3] Compiling Executable with PyInstaller...
+python -m PyInstaller --noconfirm --clean MasterAutomation.spec
 
 if errorlevel 1 (
     echo.
@@ -35,7 +35,8 @@ if errorlevel 1 (
 echo.
 echo ================================================================
 echo   Build Successful!
-echo   Standalone Executable: dist\MasterAutomation-Standalone.exe
+echo   Executable: dist\MasterAutomation\MasterAutomation.exe
+echo   IMPORTANT: Distribute the entire MasterAutomation folder, not just the exe
 echo ================================================================
 echo.
 pause

@@ -41,6 +41,7 @@ output/
 *.bak
 *.swp
 ~$*
+*.log
 
 # ─── Operating system artifacts ─────────────────────────────────────
 .DS_Store
